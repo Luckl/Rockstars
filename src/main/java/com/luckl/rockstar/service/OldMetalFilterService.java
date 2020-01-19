@@ -35,20 +35,20 @@ public class OldMetalFilterService {
         List<Artist> metalArtists = artistList.stream()
                 .filter(artist -> filter.byArtistGenre(artist, songList, METAL))
                 .collect(Collectors.toList());
+        artistRepository.saveAll(metalArtists);
 
         // Filter songs on whether they were released before 2016
         List<Song> metalClassics = songList.stream()
                 .filter(song -> song.getYear() < YEAR)
-                .filter(song -> getArtist(metalArtists, song).isPresent())
-                .peek(song -> song.setArtist(getArtist(metalArtists, song).get()))
+                .filter(song -> getArtist(song).isPresent())
+                .peek(song -> song.setArtist(getArtist(song).get()))
                 .collect(Collectors.toList());
 
-        artistRepository.saveAll(metalArtists);
         songRepository.saveAll(metalClassics);
     }
 
-    private Optional<Artist> getArtist(List<Artist> artistList, Song song) {
-        return artistList.stream()
+    private Optional<Artist> getArtist(Song song) {
+        return artistRepository.findAll().stream()
                 .filter(artist -> artist.getName().equals(song.getArtistName()))
                 .findFirst();
                 //TODO: Do we need to create new artists if none matching are found?
