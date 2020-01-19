@@ -38,6 +38,7 @@ public class OldMetalFilterService {
         artistRepository.saveAll(metalArtists);
 
         // Filter songs on whether they were released before 2016
+        // Also filter on whether artist is known
         List<Song> metalClassics = songList.stream()
                 .filter(song -> song.getYear() < YEAR)
                 .filter(song -> getArtist(song).isPresent())
