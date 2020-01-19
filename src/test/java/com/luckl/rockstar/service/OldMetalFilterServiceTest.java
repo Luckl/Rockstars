@@ -40,6 +40,7 @@ class OldMetalFilterServiceTest {
         Song song = new Song("(Funky) Sex Farm", 2015, "funkysexfarm", 107, 260068, "Metal", "1VfdMD8JguRISrccgLifIZ", "Back From The Dead");
         song.setArtistName(artist.getName());
 
+        when(artistRepositoryMock.findAll()).thenReturn(List.of(artist));
         when(genreFilterMock.byArtistGenre(artist, List.of(song), "Metal")).thenReturn(true);
 
         oldMetalFilterService.filterAndSave(List.of(artist), List.of(song));
@@ -54,6 +55,7 @@ class OldMetalFilterServiceTest {
         Song song = new Song("(Funky) Sex Farm", 2015, "funkysexfarm", 107, 260068, "Metal", "1VfdMD8JguRISrccgLifIZ", "Back From The Dead");
         song.setArtistName(artist.getName());
 
+        when(artistRepositoryMock.findAll()).thenReturn(List.of(artist));
         when(genreFilterMock.byArtistGenre(artist, List.of(song), "Metal")).thenReturn(false);
 
         oldMetalFilterService.filterAndSave(List.of(artist), List.of(song));
@@ -63,35 +65,32 @@ class OldMetalFilterServiceTest {
     }
 
     @Test
-    public void testFilterUsesTheFilteredSongsListAndNotTheOriginal() {
+    public void testSongsAreFilteredOnyear() {
         Artist artist = new Artist("Spinal Tap");
         Song song = new Song("(Funky) Sex Farm", 2016, "funkysexfarm", 107, 260068, "Metal", "1VfdMD8JguRISrccgLifIZ", "Back From The Dead");
         song.setArtistName(artist.getName());
 
-        when(genreFilterMock.byArtistGenre(artist, Collections.emptyList(), "Metal")).thenReturn(false);
+        when(genreFilterMock.byArtistGenre(artist, List.of(song), "Metal")).thenReturn(true);
 
         oldMetalFilterService.filterAndSave(List.of(artist), List.of(song));
 
-        verify(genreFilterMock).byArtistGenre(artist, Collections.emptyList(), "Metal");
-        verify(artistRepositoryMock).saveAll(Collections.emptyList());
+        verify(artistRepositoryMock).saveAll(List.of(artist));
         verify(songRepositoryMock).saveAll(Collections.emptyList());
     }
 
+    @Test
+    public void testSongsAreFilteredOnArtist() {
+        Artist artist = new Artist("Spinal Tap");
+        Song song = new Song("(Funky) Sex Farm", 2015, "funkysexfarm", 107, 260068, "Metal", "1VfdMD8JguRISrccgLifIZ", "Back From The Dead");
+        song.setArtistName(artist.getName());
 
-//    TODO: Check requirements on filtering whether artist == metal
-//    @Test
-//    public void testFilterUsesTheOriginalSongListAndNotFiltered() {
-//        Artist artist = new Artist("Spinal Tap");
-//        Song song = new Song("(Funky) Sex Farm", 2016, "funkysexfarm", 107, 260068, "Metal", "1VfdMD8JguRISrccgLifIZ", "Back From The Dead");
-//        song.setArtistName(artist.getName());
-//
-//        when(genreFilterMock.byArtistGenre(artist, Collections.emptyList(), "Metal")).thenReturn(false);
-//
-//        oldMetalFilterService.filterAndSave(List.of(artist), List.of(song));
-//
-//        verify(genreFilterMock).byArtistGenre(artist, List.of(song), "Metal");
-//        verify(artistRepositoryMock).saveAll(Collections.emptyList());
-//        verify(songRepositoryMock).saveAll(Collections.emptyList());
-//    }
+        when(artistRepositoryMock.findAll()).thenReturn(Collections.emptyList());
+        when(genreFilterMock.byArtistGenre(artist, List.of(song), "Metal")).thenReturn(true);
+
+        oldMetalFilterService.filterAndSave(List.of(artist), List.of(song));
+
+        verify(artistRepositoryMock).saveAll(List.of(artist));
+        verify(songRepositoryMock).saveAll(Collections.emptyList());
+    }
 
 }

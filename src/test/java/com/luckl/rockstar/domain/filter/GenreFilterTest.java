@@ -30,4 +30,14 @@ class GenreFilterTest {
 
         assertThat(isMetal).isTrue();
     }
+    @Test
+    public void testFilterFiltersSuccessfully() {
+        Artist artist = new Artist("Spinal Tap");
+        Song song = new Song("(Funky) Sex Farm", 2015, "funkysexfarm", 107, 260068, "Metal", "1VfdMD8JguRISrccgLifIZ", "Back From The Dead");
+        song.setArtistName(artist.getName());
+
+        boolean isMetal = genreFilter.byArtistGenre(artist, List.of(song), "Folk");
+
+        assertThat(isMetal).isFalse();
+    }
 }
