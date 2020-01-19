@@ -1,6 +1,6 @@
-package com.luckl.rockstar.entity.repository;
+package com.luckl.rockstar.domain.repository;
 
-import com.luckl.rockstar.entity.Song;
+import com.luckl.rockstar.domain.Song;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 

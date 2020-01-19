@@ -1,6 +1,6 @@
-package com.luckl.rockstar.entity.repository;
+package com.luckl.rockstar.domain.repository;
 
-import com.luckl.rockstar.entity.Artist;
+import com.luckl.rockstar.domain.Artist;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
