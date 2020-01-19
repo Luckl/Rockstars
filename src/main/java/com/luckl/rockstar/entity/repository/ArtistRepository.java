@@ -11,6 +11,8 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "artists", path= "artists")
 public interface ArtistRepository extends PagingAndSortingRepository<Artist, Integer> {
 
-    @Query("SELECT s FROM Artist a, IN(a.songs) s WHERE s.genre=:genre")
+    Artist findByName(String name);
+
+    @Query("SELECT a FROM Artist a, IN(a.songs) s WHERE s.genre=:genre")
     List<Artist> findArtistsBySongGenre(@Param("genre") String genre);
 }

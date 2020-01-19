@@ -1,35 +1,49 @@
 package com.luckl.rockstar.entity;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 
 @Entity
 public class Song {
 
     @Id
     @GeneratedValue
+    @JsonProperty("Id")
     private int id;
+    @JsonProperty("Name")
     private String name;
+    @JsonProperty("Year")
     private int year;
+
     @ManyToOne
     private Artist artist;
+
+    @JsonProperty("Artist")
+    @Transient
+    private String artistName;
+
+    @JsonProperty("Shortname")
     private String shortName;
-    private int pbm;
+    @JsonProperty("Bpm")
+    private int bpm;
+    @JsonProperty("Duration")
     private int duration;
+    @JsonProperty("Genre")
     private String genre;
+    @JsonProperty("SpotifyId")
     private String spotifyId;
+    @JsonProperty("Album")
     private String album;
 
-    public Song(int id, String name, int year, Artist artist, String shortName, int pbm, int duration, String genre, String spotifyId, String album) {
+    public Song(int id, String name, int year, Artist artist, String shortName, int bpm, int duration, String genre, String spotifyId, String album) {
         this.id = id;
         this.name = name;
         this.year = year;
         this.artist = artist;
         this.shortName = shortName;
-        this.pbm = pbm;
+        this.bpm = bpm;
         this.duration = duration;
         this.genre = genre;
         this.spotifyId = spotifyId;
@@ -79,12 +93,12 @@ public class Song {
         this.shortName = shortName;
     }
 
-    public int getPbm() {
-        return pbm;
+    public int getBpm() {
+        return bpm;
     }
 
-    public void setPbm(int pbm) {
-        this.pbm = pbm;
+    public void setBpm(int bpm) {
+        this.bpm = bpm;
     }
 
     public int getDuration() {
@@ -117,5 +131,9 @@ public class Song {
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    public String getArtistName() {
+        return artistName;
     }
 }
